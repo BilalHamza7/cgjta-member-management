@@ -2,13 +2,17 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.OpenApi.Models;
 using dotenv.net;
 using Backend.Data;
+using Backend.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add Swagger/OpenAPI
-builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+builder.Services.AddControllers();
+// Register MembersService with scoped lifetime
+builder.Services.AddScoped<MembersService>();
 
 DotEnv.Load();
 
@@ -24,7 +28,6 @@ builder.Services.AddCors(options =>
             .AllowAnyMethod());
 });
 
-builder.Services.AddControllers();
 
 var app = builder.Build();
 
@@ -38,7 +41,7 @@ if (app.Environment.IsDevelopment())
 app.UseCors("AllowFrontend");
 app.UseAuthorization();
 
-app.UseHttpsRedirection();
+// app.UseHttpsRedirection();
 app.MapControllers();
 
 app.Run();

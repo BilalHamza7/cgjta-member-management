@@ -50,3 +50,5 @@ D:\Internship\TODO\CGJTA\ManageMembers\backend\bin\Debug\net9.0\Supabase.Storage
 D:\Internship\TODO\CGJTA\ManageMembers\backend\bin\Debug\net9.0\System.IdentityModel.Tokens.Jwt.dll
 D:\Internship\TODO\CGJTA\ManageMembers\backend\bin\Debug\net9.0\System.Reactive.dll
 D:\Internship\TODO\CGJTA\ManageMembers\backend\bin\Debug\net9.0\Websocket.Client.dll
+D:\Internship\TODO\CGJTA\ManageMembers\backend\bin\Debug\net9.0\dotenv.net.dll
+D:\Internship\TODO\CGJTA\ManageMembers\backend\obj\Debug\net9.0\backend.sourcelink.json
