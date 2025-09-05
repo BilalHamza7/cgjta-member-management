@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.OpenApi.Models;
+using dotenv.net;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -8,8 +9,10 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-var supabaseUrl = builder.Configuration["Supabase:Url"] ?? throw new InvalidOperationException("SUPABASE_URL is not set");
-var supabaseKey = builder.Configuration["Supabase:Key"] ?? throw new InvalidOperationException("SUPABASE_KEY is not set");
+DotEnv.Load();
+
+var supabaseUrl = Environment.GetEnvironmentVariable("SUPABASE_URL") ?? throw new InvalidOperationException("SUPABASE_URL is not set");
+var supabaseKey = Environment.GetEnvironmentVariable("SUPABASE_KEY") ?? throw new InvalidOperationException("SUPABASE_KEY is not set");
 var options = new Supabase.SupabaseOptions
 {
     AutoConnectRealtime = true

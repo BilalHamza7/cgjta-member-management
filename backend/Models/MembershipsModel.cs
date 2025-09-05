@@ -4,16 +4,19 @@ using Supabase.Postgrest.Models;
 [Table("memberships")]
 public class Memberships : BaseModel
 {
-    [PrimaryKey("id", false)]
-    public int Id { get; set; }
+    [PrimaryKey("member_id", false)]
+    public int MemberId { get; set; }
 
-    [Column("full_name")]
+    [Column("profile_url")]
+    public string ProfileUrl { get; set; }
+
+    [Column("fullname")]
     public string FullName { get; set; }
 
-    [Column("email")]
-    public string Email { get; set; }
+    [Column("join_date")]
+    public string JoinDate { get; set; }
 
-    [Column("business_name")]
+    [Column("email")]
     public string BusinessName { get; set; }
 
     [Column("registered_no")]

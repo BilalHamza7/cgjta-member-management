@@ -1,0 +1,50 @@
+# Build results
+bin/
+obj/
+out/
+Debug/
+Release/
+
+# User-specific files
+*.user
+*.userosscache
+*.suo
+*.sln.docstates
+*.vs/
+
+# OS-generated files
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# IDE settings
+.vscode/
+.idea/
+
+# NuGet packages
+*.nupkg
+*.snupkg
+packages/
+
+# Environment & secrets
+.env
+.env.*         # if you use .env.development, .env.production
+secrets.json
+appsettings.Development.json
+appsettings.Production.json
+appsettings.Staging.json
+
+# Publish output
+publish/
+wwwroot/
+
+# Resharper
+_ReSharper*/
+*.DotSettings.user
+
+# Backup & temp files
+*~
+*.bak
+*.tmp
