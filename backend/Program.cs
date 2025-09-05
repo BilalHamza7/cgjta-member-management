@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.OpenApi.Models;
 using dotenv.net;
+using Backend.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,16 +12,8 @@ builder.Services.AddSwaggerGen();
 
 DotEnv.Load();
 
-var supabaseUrl = Environment.GetEnvironmentVariable("SUPABASE_URL") ?? throw new InvalidOperationException("SUPABASE_URL is not set");
-var supabaseKey = Environment.GetEnvironmentVariable("SUPABASE_KEY") ?? throw new InvalidOperationException("SUPABASE_KEY is not set");
-var options = new Supabase.SupabaseOptions
-{
-    AutoConnectRealtime = true
-};
-
-var supabase = new Supabase.Client(supabaseUrl, supabaseKey, options);
-var response = await supabase.InitializeAsync();
-if (response != null) Console.WriteLine("Supabase initialized." + response);
+// Register SupabaseService as a singleton
+builder.Services.AddSingleton<SupabaseService>();
 
 builder.Services.AddCors(options =>
 {
@@ -31,6 +24,8 @@ builder.Services.AddCors(options =>
             .AllowAnyMethod());
 });
 
+builder.Services.AddControllers();
+
 var app = builder.Build();
 
 // Enable Swagger in development
@@ -40,9 +35,10 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseHttpsRedirection();
 app.UseCors("AllowFrontend");
 app.UseAuthorization();
+
+app.UseHttpsRedirection();
 app.MapControllers();
 
 app.Run();
