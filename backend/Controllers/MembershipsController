@@ -1,0 +1,24 @@
+using Backend.Services;
+using Microsoft.AspNetCore.Mvc;
+
+namespace Backend.Controllers
+{
+    [ApiController]
+    [Route("api/memberships")]
+    public class MembershipsController : ControllerBase
+    {
+        private readonly MembershipsService _membershipsService;
+
+        public MembershipsController(MembershipsService membershipsService)
+        {
+            _membershipsService = membershipsService;
+        }
+
+        [HttpGet("getAllMemberships")]
+        public async Task<IActionResult> GetAllMemberships()
+        {
+            var memberships = await _membershipsService.GetAllMembershipsAsync();
+            return Ok(memberships);
+        }
+    }
+}

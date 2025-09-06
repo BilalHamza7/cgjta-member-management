@@ -3,14 +3,14 @@ using Backend.Models;
 
 namespace Backend.Services
 {
-    public class MembersService(SupabaseService client)
+    public class MembershipsService(SupabaseService client)
     {
         private readonly SupabaseService _clientFactory = client;
 
-        public async Task<List<Members>> GetAllMembersAsync()
+        public async Task<List<Memberships>> GetAllMembershipsAsync()
         {
             var client = _clientFactory.GetClient();
-            var result = await client.From<Members>().Get();
+            var result = await client.From<Memberships>().Get();
             return result.Models;
         }
     }
