@@ -17,10 +17,11 @@ namespace Backend.Data
 
             _client = new Client(supabaseUrl, supabaseKey, options);
 
-            // Initialize once synchronously (safe here because it's just setup)
+            // Initialize once synchronously
             _client.InitializeAsync().GetAwaiter().GetResult();
         }
 
+        // Expose the Supabase client
         public Client GetClient() => _client;
     }
 }
