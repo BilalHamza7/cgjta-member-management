@@ -13,6 +13,7 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddControllers();
 // Register MembersService with scoped lifetime
 builder.Services.AddScoped<MembersService>();
+builder.Services.AddScoped<MembershipsService>();
 
 DotEnv.Load();
 
