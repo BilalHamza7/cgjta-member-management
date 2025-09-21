@@ -53,6 +53,6 @@ namespace Backend.Models
         public string Chinafort { get; set; } = string.Empty;
 
         [Column("membership_id")]
-        public string MembershipId { get; set; } = string.Empty;
+        public int MembershipId { get; set; }
     }
 }

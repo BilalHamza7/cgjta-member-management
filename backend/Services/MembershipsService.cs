@@ -1,4 +1,5 @@
 using Backend.Data;
+using Backend.DTOs;
 using Backend.Models;
 
 namespace Backend.Services
@@ -30,6 +31,68 @@ namespace Backend.Services
                 .Update(membership);
 
             return response.Models.FirstOrDefault(); // null if not found
+        }
+
+        public async Task<List<MembershipStatusCountDto>> GetMembershipStatusCountsAsync()
+        {
+            var client = _clientFactory.GetClient();
+
+            var response = await client
+                .From<MembershipStatusCountDto>()
+                .Select("status, count:count(*)")
+                .Get();
+
+            return response.Models;
+        }
+
+        public async Task<Memberships?> GetMembershipByMemberIdAsync(int memberId)
+        {
+            var client = _clientFactory.GetClient();
+
+            var memberResponse = await client
+                .From<Members>()
+                .Where(m => m.MemberId == memberId)
+                .Get();
+
+            var membershipId = memberResponse.Models.FirstOrDefault()?.MembershipId;
+
+            var response = await client
+                .From<Memberships>()
+                .Where(m => m.MembershipId == membershipId)
+                .Get();
+
+            return response.Models.FirstOrDefault(); // null if not found
+        }
+
+        public async Task<Members?> GetMemberByIdAsync(int id)
+        {
+            var client = _clientFactory.GetClient();
+
+            var response = await client
+                .From<Members>()
+                .Where(m => m.MemberId == id)
+                .Get();
+
+            return response.Models.FirstOrDefault();
+        }
+
+        public async Task<List<Members>> GetMembersByMembershipLevelAsync(string level)
+        {
+            var client = _clientFactory.GetClient();
+
+            var membershipResponse = await client
+                .From<Memberships>()
+                .Where(m => m.LevelName == level)
+                .Get();
+
+            var membershipIds = membershipResponse.Models.Select(m => m.MembershipId).ToList();
+
+            var membersResponse = await client
+                .From<Members>()
+                .Where(m => membershipIds.Contains(m.MembershipId))
+                .Get();
+
+            return membersResponse.Models;
         }
     }
 }
