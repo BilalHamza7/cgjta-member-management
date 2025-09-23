@@ -14,9 +14,11 @@ builder.Services.AddSwaggerGen();
 
 DotEnv.Load();
 
-// Register MembersService with scoped lifetime
-builder.Services.AddScoped<MembersService>();
-builder.Services.AddScoped<MembershipsService>();
+builder.Services.AddScoped<MembersService>();       // Dependency Injection for MembersService
+builder.Services.AddScoped<MembershipsService>();   // Dependency Injection for MembershipsService
+builder.Services.AddScoped<AdminsService>();        // Dependency Injection for AdminsService
+builder.Services.AddScoped<JwtService>();           // Dependency Injection for JwtService
+
 builder.Services.AddSingleton<SupabaseService>();
 
 builder.Services.AddControllers();
@@ -59,9 +61,9 @@ if (app.Environment.IsDevelopment())
 
 app.UseCors("AllowFrontend");
 
+// app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();
-// app.UseHttpsRedirection();
 app.MapControllers();
 
 app.Run();

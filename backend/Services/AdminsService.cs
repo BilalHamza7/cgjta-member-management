@@ -10,7 +10,7 @@ namespace Backend.Services
     {
         private readonly SupabaseService _clientFactory = clientFactory;
 
-        public async Task<Admins?> RegisterAdminAsync(string email, string fullName, string password)
+        public async Task<Admins?> RegisterAdminAsync(string email, string username, string password)
         {
             var client = _clientFactory.GetClient();
 
@@ -19,7 +19,8 @@ namespace Backend.Services
             var admin = new Admins
             {
                 Email = email,
-                Password = hashedPassword
+                Password = hashedPassword,
+                Username = username
             };
 
             var response = await client.From<Admins>().Insert(admin);

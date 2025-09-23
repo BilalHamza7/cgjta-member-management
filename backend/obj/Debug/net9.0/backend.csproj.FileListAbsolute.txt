@@ -52,3 +52,7 @@ D:\Internship\TODO\CGJTA\ManageMembers\backend\bin\Debug\net9.0\System.Reactive.
 D:\Internship\TODO\CGJTA\ManageMembers\backend\bin\Debug\net9.0\Websocket.Client.dll
 D:\Internship\TODO\CGJTA\ManageMembers\backend\bin\Debug\net9.0\dotenv.net.dll
 D:\Internship\TODO\CGJTA\ManageMembers\backend\obj\Debug\net9.0\backend.sourcelink.json
+D:\Internship\TODO\CGJTA\ManageMembers\backend\bin\Debug\net9.0\BCrypt.Net-Next.dll
+D:\Internship\TODO\CGJTA\ManageMembers\backend\bin\Debug\net9.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
+D:\Internship\TODO\CGJTA\ManageMembers\backend\bin\Debug\net9.0\Microsoft.IdentityModel.Protocols.dll
+D:\Internship\TODO\CGJTA\ManageMembers\backend\bin\Debug\net9.0\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll

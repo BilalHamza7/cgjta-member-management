@@ -109,7 +109,7 @@ namespace Backend.Services
                 MembershipId = m.MembershipId,
                 Email = m.Email,
                 Status = membershipResponse.Models.FirstOrDefault(mem => mem.MembershipId == m.MembershipId)?.Status ?? string.Empty,
-                Paid = membershipResponse.Models.FirstOrDefault(mem => mem.MembershipId == m.MembershipId)?.Paid == "yes"
+                Paid = membershipResponse.Models.FirstOrDefault(mem => mem.MembershipId == m.MembershipId)?.Paid ?? true
             }).ToList();
 
             return result;

@@ -50,7 +50,7 @@ namespace Backend.Models
         public string? BusinessType { get; set; }
 
         [Column("chinafort")]
-        public string Chinafort { get; set; } = string.Empty;
+        public bool Chinafort { get; set; } = true;
 
         [Column("membership_id")]
         public int MembershipId { get; set; }

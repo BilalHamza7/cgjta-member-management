@@ -52,7 +52,7 @@ namespace Backend.Controllers
                 if (newAdmin == null)
                     return StatusCode(500, "Failed to register admin.");
 
-                return Ok(newAdmin);
+                return Ok(newAdmin.AdminId);
             }
             catch (Exception ex)
             {

@@ -13,7 +13,7 @@ namespace Backend.Models
         public string LevelName { get; set; } = string.Empty;
 
         [Column("paid")]
-        public string Paid { get; set; } = string.Empty;
+        public bool Paid { get; set; } = true;
 
         [Column("status")]
         public string Status { get; set; } = "Active";
