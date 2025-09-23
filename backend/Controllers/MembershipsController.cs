@@ -1,9 +1,11 @@
 using Backend.Models;
 using Backend.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Backend.Controllers
 {
+    [Authorize]
     [ApiController]
     [Route("api/memberships")]
     public class MembershipsController(MembershipsService membershipsService) : ControllerBase
@@ -93,6 +95,7 @@ namespace Backend.Controllers
             }
         }
 
+        // Returns all members by the membership level
         [HttpGet("getMembersByMembership/{level}")]
         public async Task<IActionResult> GetMembersByMembership(string level)
         {

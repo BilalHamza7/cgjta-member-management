@@ -1,11 +1,13 @@
 using Backend.DTOs;
 using Backend.Models;
 using Backend.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace Backend.Controllers
 {
+    [Authorize]
     [ApiController]
     [Route("api/members")]
     public class MembersController(MembersService membersService) : ControllerBase

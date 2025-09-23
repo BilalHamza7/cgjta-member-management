@@ -76,7 +76,17 @@ namespace Backend.Services
             return response.Models.FirstOrDefault();
         }
 
-        public async Task<List<Members>> GetMembersByMembershipLevelAsync(string level)
+        public class MembersResponse
+        {
+            // passing needed fields only
+            public int MemberId { get; set; }
+            public int MembershipId { get; set; }
+            public string Email { get; set; } = String.Empty;
+            public string Status { get; set; } = String.Empty;
+            public bool Paid { get; set; } = false;
+        }
+
+        public async Task<List<MembersResponse>> GetMembersByMembershipLevelAsync(string level)
         {
             var client = _clientFactory.GetClient();
 
@@ -92,7 +102,17 @@ namespace Backend.Services
                 .Where(m => membershipIds.Contains(m.MembershipId))
                 .Get();
 
-            return membersResponse.Models;
+            // executed m number of times (total members returned) and converted to a list
+            var result = membersResponse.Models.Select(m => new MembersResponse
+            {
+                MemberId = m.MemberId,
+                MembershipId = m.MembershipId,
+                Email = m.Email,
+                Status = membershipResponse.Models.FirstOrDefault(mem => mem.MembershipId == m.MembershipId)?.Status ?? string.Empty,
+                Paid = membershipResponse.Models.FirstOrDefault(mem => mem.MembershipId == m.MembershipId)?.Paid == "yes"
+            }).ToList();
+
+            return result;
         }
     }
 }

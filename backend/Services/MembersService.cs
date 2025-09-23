@@ -14,8 +14,8 @@ namespace Backend.Services
         // Response model to include members and their profile URLs
         public class MembersResponse
         {
-            public List<Members> Members { get; set; }
-            public List<string> ProfileUrls { get; set; }
+            public required List<Members> Members { get; set; }
+            public required List<string> ProfileUrls { get; set; }
         }
 
         // Get all members with optional filters and pagination
@@ -112,7 +112,7 @@ namespace Backend.Services
                 throw new Exception("Failed to create membership");
 
             // Assign membership_id to member
-            dto.Member.MembershipId = membershipResult.MembershipId.ToString();
+            dto.Member.MembershipId = membershipResult.MembershipId;
 
             // Insert member
             var memberResult = await client.From<Members>().Insert(dto.Member);
