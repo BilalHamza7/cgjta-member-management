@@ -38,5 +38,27 @@ namespace Backend.Controllers
                 loggedInAdmin.Username
             });
         }
+
+        [HttpPost("registerAdmin")]
+        public async Task<IActionResult> RegisterAdmin([FromBody] Admins admin)
+        {
+            if (admin == null || string.IsNullOrEmpty(admin.Email) || string.IsNullOrEmpty(admin.Password))
+                return BadRequest("Email and Password are required.");
+
+            try
+            {
+                var newAdmin = await _adminsService.RegisterAdminAsync(admin.Email, admin.Username, admin.Password);
+
+                if (newAdmin == null)
+                    return StatusCode(500, "Failed to register admin.");
+
+                return Ok(newAdmin);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"An error occurred: {ex.Message}");
+            }
+        }
+
     }
 }

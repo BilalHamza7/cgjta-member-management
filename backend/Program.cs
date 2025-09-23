@@ -12,16 +12,16 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddControllers();
+DotEnv.Load();
+
 // Register MembersService with scoped lifetime
 builder.Services.AddScoped<MembersService>();
 builder.Services.AddScoped<MembershipsService>();
-
-DotEnv.Load();
-
-// Register SupabaseService as a singleton
 builder.Services.AddSingleton<SupabaseService>();
 
+builder.Services.AddControllers();
+
+// Register SupabaseService as a singleton
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowFrontend",
@@ -40,10 +40,9 @@ builder.Services.AddAuthentication("Bearer")
             ValidateAudience = true,
             ValidateLifetime = true,
             ValidateIssuerSigningKey = true,
-            ValidIssuer = builder.Configuration["Jwt:Issuer"],
-            ValidAudience = builder.Configuration["Jwt:Audience"],
-            IssuerSigningKey = new SymmetricSecurityKey(
-                Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"] ?? string.Empty))
+            ValidIssuer = Environment.GetEnvironmentVariable("JWT_ISSUER"),
+            ValidAudience = Environment.GetEnvironmentVariable("JWT_AUDIENCE"),
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Environment.GetEnvironmentVariable("JWT_KEY")!))
         };
     });
 

@@ -22,13 +22,12 @@ public class JwtService
             new Claim("username", admin.Username)
         };
 
-        var jwtKey = _config["Jwt:Key"] ?? throw new ArgumentNullException("Jwt:Key", "JWT key is not configured.");
-        var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtKey));
+        var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Environment.GetEnvironmentVariable("JWT_KEY")!));
         var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
         var token = new JwtSecurityToken(
-            issuer: _config["Jwt:Issuer"],
-            audience: _config["Jwt:Audience"],
+            issuer: Environment.GetEnvironmentVariable("JWT_ISSUER"),
+            audience: Environment.GetEnvironmentVariable("JWT_AUDIENCE"),
             claims: claims,
             expires: DateTime.UtcNow.AddHours(2),
             signingCredentials: creds
