@@ -1,10 +1,13 @@
-import React from 'react'
+import React, { useState } from 'react'
 
 import Dropdown from '../../components/Dropdown'
 import MembersTable from '../../components/MembersTable'
-
+import CreateMember from './createMember/CreateMember'
 
 const MembersHome = () => {
+
+  const [openCreatePanel, setOpenCreatePanel] = useState(false);
+
 
   const members = [
     { id: 1, name: "Bilal Hamza", email: "bilal@example.com", level: "Premier", payment: true, mobile: "0771234567" },
@@ -13,20 +16,22 @@ const MembersHome = () => {
   ];
 
   return (
-    <div className=''>
+    <>
       <div className="flex justify-between items-center">
         <div className="flex flex-col gap-2">
           <h1 className='text-4xl font-semibold'>Members</h1>
           <h2 className='text-lg'>Manage your members here.</h2>
         </div>
-        <button className='button_style' accessKey='n' onClick={() => alert('clicked this!')}> Add New Member <span className='font-light text-sm ml-1'>ctrl+N</span></button>
+        <button className='button_style' accessKey='n' onClick={() => setOpenCreatePanel(true)}> Add New Member <span className='font-light text-sm ml-1'>ctrl+N</span></button>
       </div>
+
+      <CreateMember isOpen={openCreatePanel} onClose={() => setOpenCreatePanel(false)} />
 
       {/* Search filters */}
       <div className="mt-8 flex items-center gap-4">
-        <input type="text" placeholder='Search member by ID' className='input_style' />
+        <input type="text" placeholder='Search member by ID' className='input_style w-72' />
         <button type="button" aria-label='searchById' className="absolute top-33 left-130 text-3xl text-gray-700 cursor-pointer opacity-70" >&#x1F50D;</button>
-        <input type="text" placeholder='Search member by name' className='input_style' />
+        <input type="text" placeholder='Search member by name' className='input_style w-72' />
         <button type="button" aria-label='searchByName' className="absolute top-33 left-205 text-3xl text-gray-700 cursor-pointer opacity-70" >&#x1F50D;</button>
         <Dropdown
           label="All Statuses"
@@ -54,7 +59,7 @@ const MembersHome = () => {
 
       {/* Members table */}
       <MembersTable members={members} />
-    </div>
+    </>
   )
 }
 

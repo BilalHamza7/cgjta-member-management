@@ -1,7 +1,7 @@
 import React from 'react'
 import { NavLink, Outlet } from 'react-router'
 
-import dashboardIcon from '../assets/dashboard.svg';
+import DashboardIcon from '../assets/dashboard.svg';
 import MembersIcon from '../assets/member-filled.svg';
 import LevelsIcon from '../assets/subscription-cashflow-solid.svg';
 import SettingsIcon from '../assets/setting.svg';
@@ -19,7 +19,7 @@ const Layout = () => {
           <img src={logo} className='h-10' />
 
           <NavLink to='/dashboard' className={({ isActive }) => `${linkClasses} mt-12 ${isActive ? 'bg-[#CFD6C2]' : 'hover:bg-[#CFD6C2]'}`}>
-            <img src={dashboardIcon} alt="" className='h-8 opacity-80' />
+            <img src={DashboardIcon} alt="" className='h-8 opacity-80' />
             <span className='text-2xl'>Dashboard</span>
           </NavLink>
           <NavLink to='/members' className={({ isActive }) => `${linkClasses} mt-8 ${isActive ? 'bg-[#CFD6C2]' : 'hover:bg-[#CFD6C2]'}`}>

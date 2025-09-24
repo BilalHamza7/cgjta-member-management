@@ -15,5 +15,5 @@ body {
 }
 
 .input_style {
-  @apply p-2 text-lg bg-gray-200 rounded w-72 shadow-sm;
+  @apply p-2 text-lg bg-gray-200 rounded shadow-sm;
 }
