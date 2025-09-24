@@ -29,11 +29,11 @@ const Login = () => {
           <label htmlFor="password" className="flex flex-col gap-1 text-xl relative mt-3">
             Password
             <input type={showPassword ? "text" : "password"} id="password" className="p-2 text-lg bg-gray-300 rounded w-72"/>
-            <button type="button" tabIndex="-1" onClick={() => setShowPassword(!showPassword)} className="absolute right-3 top-11 text-sm text-gray-700" >
+            <button type="button" tabIndex="-1" onClick={() => setShowPassword(!showPassword)} className="absolute right-3 top-11 text-sm text-gray-700 cursor-pointer" >
               {showPassword ? "Hide" : "Show"}
             </button>
           </label>
-          <button type='submit' className='bg-[#314CB6] text-white py-2 px-9 text-2xl rounded w-full mt-5'>Login</button>
+          <button type='submit' className='button_style'>Login</button>
         </form>
       </div>
     </div>

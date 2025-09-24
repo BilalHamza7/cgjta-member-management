@@ -11,5 +11,6 @@ body {
 }
 
 .button_style {
-  @apply bg-blue-500 text-white font-semibold py-2 px-4 rounded hover:bg-blue-600 transition duration-300;
+  @apply bg-[#314cb6ee] hover:bg-[#314cb6] transition-all duration-200 text-white py-2 px-9 text-2xl rounded w-full mt-5 cursor-pointer;
 }
+
