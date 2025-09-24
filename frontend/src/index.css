@@ -11,6 +11,9 @@ body {
 }
 
 .button_style {
-  @apply bg-[#314cb6ee] hover:bg-[#314cb6] transition-all duration-200 text-white py-2 px-9 text-2xl rounded w-full mt-5 cursor-pointer;
+  @apply bg-[#314cb6ee] hover:bg-[#314cb6] transition-all duration-200 text-white py-2 px-9 text-2xl rounded cursor-pointer;
 }
 
+.input_style {
+  @apply p-2 text-lg bg-gray-200 rounded w-72 shadow-sm;
+}

@@ -24,16 +24,16 @@ const Login = () => {
           <h3 className='font-light mt-1'>Enter your credentials to login!</h3>
           <label htmlFor="email" className='flex flex-col gap-1 text-xl mt-5'>
             Email
-            <input type="text" id='email' placeholder='Enter you email' className='p-2 text-lg bg-gray-300 rounded w-72' />
+            <input type="text" id='email' placeholder='Enter you email' className='input_style' />
           </label>
           <label htmlFor="password" className="flex flex-col gap-1 text-xl relative mt-3">
             Password
-            <input type={showPassword ? "text" : "password"} id="password" className="p-2 text-lg bg-gray-300 rounded w-72"/>
+            <input type={showPassword ? "text" : "password"} id="password" className="input_style"/>
             <button type="button" tabIndex="-1" onClick={() => setShowPassword(!showPassword)} className="absolute right-3 top-11 text-sm text-gray-700 cursor-pointer" >
               {showPassword ? "Hide" : "Show"}
             </button>
           </label>
-          <button type='submit' className='button_style'>Login</button>
+          <button type='submit' className='button_style w-full mt-5'>Login</button>
         </form>
       </div>
     </div>

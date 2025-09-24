@@ -19,32 +19,34 @@ const Layout = () => {
           <img src={logo} className='h-10' />
 
           <NavLink to='/dashboard' className={({ isActive }) => `${linkClasses} mt-12 ${isActive ? 'bg-[#CFD6C2]' : 'hover:bg-[#CFD6C2]'}`}>
-            <img src={dashboardIcon} alt="" className='h-8' />
-            <span className='text-2xl font-medium'>Dashboard</span>
+            <img src={dashboardIcon} alt="" className='h-8 opacity-80' />
+            <span className='text-2xl'>Dashboard</span>
           </NavLink>
           <NavLink to='/members' className={({ isActive }) => `${linkClasses} mt-8 ${isActive ? 'bg-[#CFD6C2]' : 'hover:bg-[#CFD6C2]'}`}>
-            <img src={MembersIcon} alt="" className='h-8' />
-            <span className='text-2xl font-medium'>Members</span>
+            <img src={MembersIcon} alt="" className='h-8 opacity-80' />
+            <span className='text-2xl'>Members</span>
           </NavLink>
           <NavLink to='/levels' className={({ isActive }) => `${linkClasses} mt-8 ${isActive ? 'bg-[#CFD6C2]' : 'hover:bg-[#CFD6C2]'}`}>
-            <img src={LevelsIcon} alt="" className='h-8' />
-            <span className='text-2xl font-medium'>Levels</span>
+            <img src={LevelsIcon} alt="" className='h-8 opacity-80' />
+            <span className='text-2xl'>Levels</span>
           </NavLink>
         </div>
 
         <div className="flex flex-col">
           <NavLink to='/settings' className={({ isActive }) => `${linkClasses} ${isActive ? 'bg-[#CFD6C2]' : 'hover:bg-[#CFD6C2]'}`}>
-            <img src={SettingsIcon} alt="" className='h-8' />
-            <span className='text-2xl font-medium'>Settings</span>
+            <img src={SettingsIcon} alt="" className='h-8 opacity-80' />
+            <span className='text-2xl'>Settings</span>
           </NavLink>
           <NavLink to='/' className={({ isActive }) => `${linkClasses} mt-8 ${isActive ? 'bg-[#CFD6C2]' : 'hover:bg-[#CFD6C2]'}`}>
-            <img src={LogoutIcon} alt="" className='h-8' />
-            <span className='text-2xl font-medium'>Log Out</span>
+            <img src={LogoutIcon} alt="" className='h-8 opacity-80' />
+            <span className='text-2xl'>Log Out</span>
           </NavLink>
         </div>
       </div>
 
-      <Outlet />
+      <div className="flex-1 p-5 overflow-y-auto">
+        <Outlet />
+      </div>
     </div>
   )
 }
