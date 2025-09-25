@@ -7,7 +7,6 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace Backend.Controllers
 {
-    [Authorize]
     [ApiController]
     [Route("api/members")]
     public class MembersController(MembersService membersService) : ControllerBase
@@ -18,13 +17,12 @@ namespace Backend.Controllers
         public async Task<IActionResult> GetAllMembers()
         {
             var memberID = HttpContext.Request.Query["memberID"].ToString();
-            var mobileNo = HttpContext.Request.Query["mobileNo"].ToString();
+            var fullName = HttpContext.Request.Query["fullName"].ToString();
             var status = HttpContext.Request.Query["status"].ToString();
             var level = HttpContext.Request.Query["level"].ToString();
-            var payment = HttpContext.Request.Query["payment"].ToString();
             var pageNo = int.Parse(HttpContext.Request.Query["page"].ToString());
 
-            var members = await _membersService.GetAllMembersAsync(memberID, mobileNo, status, level, payment, pageNo);
+            var members = await _membersService.GetAllMembersAsync(memberID, fullName, status, level, pageNo);
             return Ok(members);
         }
 
@@ -47,7 +45,7 @@ namespace Backend.Controllers
             try
             {
                 var createdMember = await _membersService.RegisterMemberWithMembershipAsync(dto);
-                return Ok(createdMember);
+                return Ok(createdMember.MemberId);
             }
             catch (Exception ex)
             {

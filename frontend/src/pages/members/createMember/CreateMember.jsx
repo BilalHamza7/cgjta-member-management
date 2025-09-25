@@ -1,16 +1,90 @@
 import React, { useState } from 'react'
+
+import axios from 'axios';
+
 import GeneralDetails from './GeneralDetails';
 import PersonalDetails from './PersonalDetails';
 import Register from './Register';
+import { supabase } from '../../../supabaseClient';
 
 const CreateMember = ({ isOpen, onClose }) => {
 
     const [selectedForm, setSelectedForm] = useState('General');
+    const [formData, setFormData] = useState({
+        member: {
+            profileUrl: "",
+            fullName: "",
+            joinDate: new Date().toISOString().split("T")[0],
+            email: "",
+            nicNumber: "",
+            mobileNumber: "",
+            address: "",
+            city: "",
+            postalCode: "",
+            country: "",
+            businessName: "",
+            businessActivity: "",
+            businessType: "",
+            chinafort: true,
+        },
+        membership: {
+            levelName: "Premier",
+            paid: true,
+            status: "Active",
+            renewalDate: new Date().toISOString().split("T")[0],
+            expiryDate: new Date().toISOString().split("T")[0],
+        }
+    });
+    const [profileFile, setProfileFile] = useState(null);
+
+    const handleRegister = async () => {
+        console.log("FILELIST", profileFile);
+        const safeFullName = formData.member.fullName.replace(/\s+/g, "_"); // Replace spaces with underscore
+        const fileName = `profiles/member_${safeFullName}_${profileFile.name}`;
+        const { data, error } = await supabase.storage
+            .from("profile-images")
+            .upload(fileName, profileFile, {
+                cacheControl: "3600",
+                upsert: true,
+            });
+
+        if (error) {
+            console.error("Upload failed:", error.message);
+            return;
+        }
+
+        const { data: publicUrlData } = supabase.storage
+            .from("profile-images")
+            .getPublicUrl(fileName);
+
+        updateFields({ section: "member", field: "profileUrl", value: publicUrlData.publicUrl });
+
+        try {
+            console.log(formData);
+            const response = await  axios.post('http://localhost:5276/api/members/registerMember', formData);
+            if (response) {
+                handleClose();
+            }
+        } catch (error) {
+            console.error('Error creating member:', error);
+        }
+    }
 
     const handleClose = () => {
         setSelectedForm('General');
         onClose();
+        window.location.reload();
     }
+
+    const updateFields = ({ section, field, value }) => {
+        setFormData(prev => ({
+            ...prev,
+            [section]: {
+                ...prev[section],
+                [field]: value
+            }
+        }));
+    };
 
     if (!isOpen) return null;
 
@@ -27,7 +101,7 @@ const CreateMember = ({ isOpen, onClose }) => {
                 <h1 className="font-semibold text-3xl text-center mt-3">Add New Member</h1>
                 <h3 className='font-light text-center mb-5'>Fill in the following information to complete the registration process</h3>
                 <div className="flex">
-                    <div className="w-36 bg-[#DDE2C6] flex py-3 flex-col items-center rounded-lg">
+                    <div className="w-36 bg-[#DDE2C6] flex py-3 flex-col items-center justify-center rounded-lg">
                         <button tabIndex={-1} className={`${selectedForm == 'General' ? 'bg-amber-200' : 'bg-[#acadaa]'} py-5 w-28 text-xl font-semibold mx-5 rounded-md cursor-pointer`} onClick={() => setSelectedForm('General')}>
                             General
                         </button>
@@ -42,14 +116,38 @@ const CreateMember = ({ isOpen, onClose }) => {
                     </div>
 
                     {selectedForm === 'General' ?
-                        <GeneralDetails switchComponent={setSelectedForm} />
+                        <GeneralDetails
+                            switchComponent={setSelectedForm}
+                            joinDate={formData.member.joinDate}
+                            fullName={formData.member.fullName}
+                            email={formData.member.email}
+                            nicNo={formData.member.nicNumber}
+                            mobileNo={formData.member.mobileNumber}
+                            fileChange={setProfileFile}
+                            onChange={updateFields}
+                        />
                         :
                         selectedForm === 'Personal' ?
-                            <PersonalDetails switchComponent={setSelectedForm} />
+                            <PersonalDetails
+                                switchComponent={setSelectedForm}
+                                address={formData.member.address}
+                                city={formData.member.city}
+                                postalCode={formData.member.postalCode}
+                                country={formData.member.country}
+                                businessName={formData.member.businessName}
+                                businessActivity={formData.member.businessActivity}
+                                businessType={formData.member.businessType}
+                                chinafort={formData.member.chinafort}
+                                onChange={updateFields}
+                            />
                             :
-                            <Register switchComponent={setSelectedForm} />}
+                            <Register
+                                levelName={formData.membership.levelName}
+                                paid={formData.membership.paid}
+                                onChange={updateFields}
+                                register={handleRegister}
+                            />}
                 </div>
-
             </div>
         </div>
     )

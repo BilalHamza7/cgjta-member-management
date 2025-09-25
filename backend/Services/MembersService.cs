@@ -1,6 +1,7 @@
 using Backend.Data;
 using Backend.DTOs;
 using Backend.Models;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Supabase.Postgrest.Interfaces;
 using static Supabase.Postgrest.Constants;
 
@@ -19,14 +20,14 @@ namespace Backend.Services
         }
 
         // Get all members with optional filters and pagination
-        public async Task<MembersResponse> GetAllMembersAsync(string? memberID = null, string? mobileNo = null, string? status = null, string? level = null, string? payment = null, int pageNo = 1)
+        public async Task<MembersResponse> GetAllMembersAsync(string? memberID = null, string? fullName = null, string? status = null, string? level = null, int pageNo = 1)
         {
             var client = _clientFactory.GetClient();
 
             // Select all fields from Members and all fields from related Membership
             IPostgrestTable<Members> query = client
                     .From<Members>()
-                    .Select("*, Memberships!inner(*)");
+                    .Select("*, memberships!inner(*)");
 
             if (!string.IsNullOrEmpty(memberID))
             {
@@ -34,20 +35,16 @@ namespace Backend.Services
                     query = query.Filter("member_id", Operator.Equals, int.Parse(memberID));
             }
 
-            if (!string.IsNullOrEmpty(mobileNo))
+            if (!string.IsNullOrEmpty(fullName))
             {
-                if (mobileNo.All(char.IsDigit))
-                    query = query.Filter("mobile_number", Operator.ILike, $"%{mobileNo}%");
+                query = query.Filter("fullname", Operator.ILike, fullName);
             }
 
             if (!string.IsNullOrEmpty(status))
-                query = query.Filter("Memberships.status", Operator.Equals, status);
+                query = query.Filter("memberships.status", Operator.Equals, status);
 
             if (!string.IsNullOrEmpty(level))
-                query = query.Filter("Memberships.level_name", Operator.Equals, level);
-
-            if (!string.IsNullOrEmpty(payment))
-                query = query.Filter("Memberships.paid", Operator.Equals, level);
+                query = query.Filter("memberships.level_name", Operator.Equals, level);
 
             int from = (pageNo - 1) * 20;
             int to = from + 20 - 1;
@@ -117,30 +114,12 @@ namespace Backend.Services
             // Insert member
             var memberResult = await client.From<Members>().Insert(dto.Member);
 
-            if (!string.IsNullOrEmpty(dto.Member.ProfileUrl)) // here ProfileUrl temporarily holds base64/file content
-            {
-                var bucket = client.Storage.From("profile-images");
-
-                // Create unique file name
-                var filePath = $"profiles/member_{memberResult.Models[0].MemberId}.png";
-
-                var imageBytes = Convert.FromBase64String(dto.Member.ProfileUrl);
-
-                // Upload to bucket
-                await bucket.Upload(imageBytes, filePath, new Supabase.Storage.FileOptions
-                {
-                    ContentType = "image/png",
-                    Upsert = true
-                });
-
-                // Save just the file path in DB
-                dto.Member.ProfileUrl = filePath;
-            }
-
             if (memberResult.Models.Count == 0)
                 throw new Exception("Failed to register member!");
 
-            return memberResult.Models.First();
+            var createdMember = memberResult.Models.First();
+
+            return createdMember;
         }
 
         public async Task<Members?> UpdateMemberAsync(int id, Members member)
