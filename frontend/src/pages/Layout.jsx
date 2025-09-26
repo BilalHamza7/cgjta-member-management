@@ -1,5 +1,5 @@
 import React from 'react'
-import { NavLink, Outlet } from 'react-router'
+import { NavLink, Outlet, useNavigate } from 'react-router'
 
 import DashboardIcon from '../assets/dashboard.svg';
 import MembersIcon from '../assets/member-filled.svg';
@@ -11,6 +11,14 @@ import logo from '../assets/logo.png'
 const Layout = () => {
 
   const linkClasses = "flex items-center gap-3 w-full rounded-lg p-2 transition-all ease-in duration-150";
+
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    localStorage.removeItem("authToken");
+    localStorage.removeItem("admin");
+    navigate('/');
+  }
 
   return (
     <div className='flex h-screen'>
@@ -37,7 +45,7 @@ const Layout = () => {
             <img src={SettingsIcon} alt="" className='h-8 opacity-80' />
             <span className='text-2xl'>Settings</span>
           </NavLink>
-          <NavLink to='/' className={({ isActive }) => `${linkClasses} mt-8 ${isActive ? 'bg-[#CFD6C2]' : 'hover:bg-[#CFD6C2]'}`}>
+          <NavLink to='/' onClick={handleLogout} className={({ isActive }) => `${linkClasses} mt-8 ${isActive ? 'bg-[#CFD6C2]' : 'hover:bg-[#CFD6C2]'}`}>
             <img src={LogoutIcon} alt="" className='h-8 opacity-80' />
             <span className='text-2xl'>Log Out</span>
           </NavLink>

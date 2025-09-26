@@ -1,17 +1,40 @@
 import React, { useState } from 'react'
 import logo from '../assets/logo.png'
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 const Login = () => {
 
   const navigate = useNavigate();
 
   const [showPassword, setShowPassword] = useState(false);
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
 
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    navigate('/dashboard');
+
+    try {
+      const response = await axios.post('http://localhost:5276/api/admins/adminLogin', { email, password })
+      if (response.data?.token) {
+        localStorage.setItem("authToken", response.data.token);
+
+        // Optionally save admin info
+        localStorage.setItem("admin", JSON.stringify({
+          id: response.data.adminId,
+          email: response.data.email,
+          username: response.data.username
+        }));
+
+        console.log("Login successful");
+        navigate("/dashboard"); // redirect to protected route
+      } else {
+        console.log("Failed to login")
+      }
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   return (
@@ -24,11 +47,11 @@ const Login = () => {
           <h3 className='font-light mt-1'>Enter your credentials to login!</h3>
           <label htmlFor="email" className='flex flex-col gap-1 text-xl mt-5'>
             Email
-            <input type="text" id='email' placeholder='Enter your email' className='input_style w-72' />
+            <input type="email" id='email' required value={email} onChange={(e) => setEmail(e.target.value)} placeholder='Enter your email' className='input_style w-72' />
           </label>
           <label htmlFor="password" className="flex flex-col gap-1 text-xl relative mt-3">
             Password
-            <input type={showPassword ? "text" : "password"} id="password" className="input_style w-72"/>
+            <input type={showPassword ? "text" : "password"} required value={password} onChange={(e) => setPassword(e.target.value)} id="password" className="input_style w-72" />
             <button type="button" tabIndex="-1" onClick={() => setShowPassword(!showPassword)} className="absolute right-3 top-11 text-sm text-gray-700 cursor-pointer" >
               {showPassword ? "Hide" : "Show"}
             </button>

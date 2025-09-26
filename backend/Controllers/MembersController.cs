@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace Backend.Controllers
 {
+    [Authorize]
     [ApiController]
     [Route("api/members")]
     public class MembersController(MembersService membersService) : ControllerBase

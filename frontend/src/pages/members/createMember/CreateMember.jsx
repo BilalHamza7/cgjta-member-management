@@ -9,6 +9,8 @@ import { supabase } from '../../../supabaseClient';
 
 const CreateMember = ({ isOpen, onClose }) => {
 
+    const token = localStorage.getItem("authToken");
+
     const [selectedForm, setSelectedForm] = useState('General');
     const [formData, setFormData] = useState({
         member: {
@@ -59,7 +61,11 @@ const CreateMember = ({ isOpen, onClose }) => {
             console.log(formData);
             updateFields({ section: "member", field: "profileUrl", value: fileName });
             if (formData.member?.profileUrl) {
-                const response = await axios.post('http://localhost:5276/api/members/registerMember', formData);
+                const response = await axios.post('http://localhost:5276/api/members/registerMember', formData, {
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
+                });
                 if (response) {
                     handleClose();
                 }

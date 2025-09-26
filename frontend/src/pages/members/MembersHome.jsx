@@ -7,6 +7,8 @@ import CreateMember from './createMember/CreateMember'
 
 const MembersHome = () => {
 
+  const token = localStorage.getItem("authToken");
+
   const [openCreatePanel, setOpenCreatePanel] = useState(false);
 
   const [searchId, setSearchId] = useState();
@@ -26,6 +28,9 @@ const MembersHome = () => {
           status: searchStatus || '',
           level: searchLevel || '',
           page: 1
+        },
+        headers: {
+          Authorization: `Bearer ${token}`
         }
       });
       if (response.data) {

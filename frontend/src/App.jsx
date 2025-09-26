@@ -8,6 +8,7 @@ import Settings from './pages/profile/Settings';
 
 import Layout from './pages/Layout';
 import MemberMain from './pages/members/memberDetails/MemberMain';
+import ProtectedRoute from './ProtectedRoute';
 
 function App() {
   return (
@@ -15,13 +16,14 @@ function App() {
       <Routes>
         {/* Initial route */}
         <Route path="/" element={<Login />} />
-
-        <Route path='/' element={<Layout />}>
-          <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="/members" element={<MembersHome />} />
-          <Route path="/levels" element={<LevelsDashboard />} />
-          <Route path="/settings" element={<Settings />} />
-          <Route path="/members/memberDetails" element={<MemberMain />} />
+        <Route element={<ProtectedRoute />}>
+          <Route path='/' element={<Layout />}>
+            <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/members" element={<MembersHome />} />
+            <Route path="/levels" element={<LevelsDashboard />} />
+            <Route path="/settings" element={<Settings />} />
+            <Route path="/members/memberDetails" element={<MemberMain />} />
+          </Route>
         </Route>
 
       </Routes>
