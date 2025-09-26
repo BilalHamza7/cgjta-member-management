@@ -21,7 +21,7 @@ namespace Backend.Controllers
             var status = HttpContext.Request.Query["status"].ToString();
             var level = HttpContext.Request.Query["level"].ToString();
             var pageNo = int.Parse(HttpContext.Request.Query["page"].ToString());
-
+            Console.WriteLine($"Received parameters: memberID={memberID}, fullName={fullName}, status={status}, level={level}, pageNo={pageNo}");
             var members = await _membersService.GetAllMembersAsync(memberID, fullName, status, level, pageNo);
             return Ok(members);
         }
@@ -78,26 +78,26 @@ namespace Backend.Controllers
             }
         }
 
-        [HttpPut("updateMemberProfile/{id}")]
-        public async Task<IActionResult> UpdateMemberProfileAsync(int id, [FromBody] string base64Image)
-        {
-            if (string.IsNullOrEmpty(base64Image))
-                return BadRequest("Invalid profile image.");
+        // [HttpPut("updateMemberProfile/{id}")]
+        // public async Task<IActionResult> UpdateMemberProfileAsync(int id, [FromBody] string base64Image)
+        // {
+        //     if (string.IsNullOrEmpty(base64Image))
+        //         return BadRequest("Invalid profile image.");
 
-            try
-            {
-                var updatedMemberProfile = await _membersService.UpdateMemberProfileAsync(id, base64Image);
+        //     try
+        //     {
+        //         var updatedMemberProfile = await _membersService.UpdateMemberProfileAsync(id, base64Image);
 
-                if (updatedMemberProfile == null)
-                    return NotFound($"Member with ID {id} not found.");
+        //         if (updatedMemberProfile == null)
+        //             return NotFound($"Member with ID {id} not found.");
 
-                return Ok(updatedMemberProfile);
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine("Update failed: " + ex);
-                return StatusCode(500, $"Internal server error: {ex.Message}");
-            }
-        }
+        //         return Ok(updatedMemberProfile);
+        //     }
+        //     catch (Exception ex)
+        //     {
+        //         Console.WriteLine("Update failed: " + ex);
+        //         return StatusCode(500, $"Internal server error: {ex.Message}");
+        //     }
+        // }
     }
 }

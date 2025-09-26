@@ -1,6 +1,33 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { supabase } from "../supabaseClient";
+import MemberIcon from '../assets/member-filled.svg';
 
 const MembersTable = ({ members = [] }) => {
+
+  const [profiles, setProfiles] = useState({}); // store signed URLs keyed by profile path
+
+  useEffect(() => {
+    const fetchProfiles = async () => {
+      const urls = {};
+
+      await Promise.all(
+        members.map(async (member) => {
+          if (member.profileUrl) {
+            const { data } = await supabase
+              .storage
+              .from("profile-images")
+              .createSignedUrl(member.profileUrl, 3600);
+            urls[member.profileUrl] = data?.signedUrl || null;
+          }
+        })
+      );
+
+      setProfiles(urls);
+    };
+
+    fetchProfiles();
+  }, [members]);
+
   return (
     <div className="mt-5 overflow-x-auto rounded-lg shadow-gray-300 shadow-md">
       <table className="min-w-full rounded-lg ">
@@ -21,12 +48,15 @@ const MembersTable = ({ members = [] }) => {
                 key={idx}
                 className="hover:bg-[#F5F6EE] transition duration-200"
               >
-                <td className="px-6 py-3 text-sm text-gray-800">{member.id}</td>
-                <td className="px-6 py-3 text-sm text-gray-800">{member.name}</td>
+                <td className="px-6 py-3 text-sm text-gray-800">{member.memberId}</td>
+                <td className="px-6 py-3 text-sm text-gray-800 flex gap-3 items-center">
+                  <img src={profiles[member.profileUrl] || MemberIcon} alt="" className="w-7 h-7 rounded-full" />
+                  {member.fullName}
+                </td>
                 <td className="px-6 py-3 text-sm text-gray-800">{member.email}</td>
-                <td className="px-6 py-3 text-sm text-gray-800">{member.level}</td>
+                <td className="px-6 py-3 text-sm text-gray-800">{member.membership.levelName}</td>
                 <td className="px-6 py-3 text-sm text-gray-800">
-                  {member.payment ? (
+                  {member.membership.paid ? (
                     <span className="px-2 py-1 text-green-700 bg-green-100 rounded text-xs font-medium">
                       Paid
                     </span>
@@ -36,7 +66,7 @@ const MembersTable = ({ members = [] }) => {
                     </span>
                   )}
                 </td>
-                <td className="px-6 py-3 text-sm text-gray-800">{member.mobile}</td>
+                <td className="px-6 py-3 text-sm text-gray-800">{member.mobileNumber}</td>
               </tr>
             ))
           ) : (

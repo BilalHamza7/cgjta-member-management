@@ -24,7 +24,7 @@ const CreateMember = ({ isOpen, onClose }) => {
             country: "",
             businessName: "",
             businessActivity: "",
-            businessType: "",
+            businessType: "Proprietorship/Partnership",
             chinafort: true,
         },
         membership: {
@@ -39,8 +39,9 @@ const CreateMember = ({ isOpen, onClose }) => {
 
     const handleRegister = async () => {
         console.log("FILELIST", profileFile);
-        const safeFullName = formData.member.fullName.replace(/\s+/g, "_"); // Replace spaces with underscore
-        const fileName = `profiles/member_${safeFullName}_${profileFile.name}`;
+        const safeFullName = formData.member.fullName.replace(/\s+/g, "_");
+        const safeFileName = profileFile.name.replace(/\s+/g, "_").replace(/[^\w.-]/g, "");
+        const fileName = `profiles/member_${safeFullName}_${safeFileName}`;
         const { data, error } = await supabase.storage
             .from("profile-images")
             .upload(fileName, profileFile, {
@@ -57,11 +58,11 @@ const CreateMember = ({ isOpen, onClose }) => {
             .from("profile-images")
             .getPublicUrl(fileName);
 
-        updateFields({ section: "member", field: "profileUrl", value: publicUrlData.publicUrl });
+        updateFields({ section: "member", field: "profileUrl", value: fileName });
 
         try {
             console.log(formData);
-            const response = await  axios.post('http://localhost:5276/api/members/registerMember', formData);
+            const response = await axios.post('http://localhost:5276/api/members/registerMember', formData);
             if (response) {
                 handleClose();
             }

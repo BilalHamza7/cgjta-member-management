@@ -15,13 +15,13 @@ const MembersHome = () => {
   const [searchLevel, setSearchLevel] = useState('0');
   // const [pageNo, setPageNo] = useState(1);
 
-  const [members, setMembers] = useState({});
+  const [members, setMembers] = useState([]);
 
   const getMembers = async () => {
     try {
       const response = await axios.get('http://localhost:5276/api/members/getAllMembers', {
         params: {
-          memberID: searchId || '',      // send empty string if 0
+          memberID: searchId || '',
           fullName: searchName || '',
           status: searchStatus || '',
           level: searchLevel || '',
@@ -30,10 +30,11 @@ const MembersHome = () => {
       });
       if (response.data) {
         console.log(response.data);
-        setMembers(response.data);
+        setMembers(response.data.members);
       }
       else
         console.log("No data found");
+
     } catch (error) {
       console.error('Error fetching members data:', error);
     }
@@ -43,6 +44,11 @@ const MembersHome = () => {
     // Fetch members data using axios from the backend API
     getMembers();
   }, []);
+
+  useEffect(() => {
+    // console.log("membersssss", members);
+    members.length > 0 ? console.log("member", members) : "loading";
+  }, [members]);
 
   return (
     <>

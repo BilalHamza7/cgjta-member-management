@@ -54,5 +54,8 @@ namespace Backend.Models
 
         [Column("membership_id")]
         public int MembershipId { get; set; }
+
+        [Reference(typeof(Memberships))]
+        public Memberships? Membership { get; set; }
     }
 }
