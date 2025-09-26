@@ -42,29 +42,27 @@ const CreateMember = ({ isOpen, onClose }) => {
         const safeFullName = formData.member.fullName.replace(/\s+/g, "_");
         const safeFileName = profileFile.name.replace(/\s+/g, "_").replace(/[^\w.-]/g, "");
         const fileName = `profiles/member_${safeFullName}_${safeFileName}`;
-        const { data, error } = await supabase.storage
+        const response = await supabase.storage
             .from("profile-images")
             .upload(fileName, profileFile, {
                 cacheControl: "3600",
                 upsert: true,
             });
 
-        if (error) {
-            console.error("Upload failed:", error.message);
+        if (response.error) {
+            console.error("Upload failed:", response.error.message);
             return;
         }
 
-        const { data: publicUrlData } = supabase.storage
-            .from("profile-images")
-            .getPublicUrl(fileName);
-
-        updateFields({ section: "member", field: "profileUrl", value: fileName });
 
         try {
             console.log(formData);
-            const response = await axios.post('http://localhost:5276/api/members/registerMember', formData);
-            if (response) {
-                handleClose();
+            updateFields({ section: "member", field: "profileUrl", value: fileName });
+            if (formData.member?.profileUrl) {
+                const response = await axios.post('http://localhost:5276/api/members/registerMember', formData);
+                if (response) {
+                    handleClose();
+                }
             }
         } catch (error) {
             console.error('Error creating member:', error);

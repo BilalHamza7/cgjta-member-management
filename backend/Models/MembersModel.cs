@@ -52,7 +52,7 @@ namespace Backend.Models
         [Column("chinafort")]
         public bool Chinafort { get; set; } = true;
 
-        [Column("membership_id")]
+        [Column("membership_id")] 
         public int MembershipId { get; set; }
 
         [Reference(typeof(Memberships))]
