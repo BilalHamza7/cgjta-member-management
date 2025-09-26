@@ -55,7 +55,7 @@ const MembersHome = () => {
       <div className="flex justify-between items-center">
         <div className="flex flex-col gap-2">
           <h1 className='text-4xl font-semibold'>Members</h1>
-          <h2 className='text-lg'>Manage your members here.</h2>
+          <h2 className='text-lg'>Check the list of members here.</h2>
         </div>
         <button className='button_style' accessKey='n' onClick={() => setOpenCreatePanel(true)}> Add New Member <span className='font-light text-sm ml-1'>alt+N</span></button>
       </div>

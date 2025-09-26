@@ -19,7 +19,7 @@ const Register = ({ levelName, paid, onChange, register }) => {
   const handleLevelChange = (e) => {
     const selectedLevel = e.target.value;
     onChange({ section: "membership", field: "levelName", value: selectedLevel });
-    // update renewal and expiry date based on level
+    // update renewal and expiry date lgd on level
     const expiryDate = levels[selectedLevel].to;
     const renewalDate = levels[selectedLevel].from;
     onChange({ section: "membership", field: "expiryDate", value: expiryDate });
@@ -42,19 +42,19 @@ const Register = ({ levelName, paid, onChange, register }) => {
       </label>
       <div className="flex flex-col gap-2 mt-5 w-full">
         <label className='text-sm font-medium text-gray-600 flex gap-5 items-center'>Level:
-          <span className='text-black font-black text-base'>{levelName}</span>
+          <span className='text-black font-black text-lg'>{levelName}</span>
         </label>
         <label className='text-sm font-medium text-gray-600 flex gap-5 items-center'>Amount:
-          <span className='text-black font-black text-base'>LKR. {levels[levelName].price || 0}</span>
+          <span className='text-black font-black text-lg'>LKR. {levels[levelName].price || 0}</span>
         </label>
         <label className='text-sm font-medium text-gray-600 flex gap-5 items-center'>Validity:
-          <span className='text-black font-black text-base'>{levels[levelName].validity || 0} year(s)</span>
+          <span className='text-black font-black text-lg'>{levels[levelName].validity || 0} year(s)</span>
         </label>
         <label className='text-sm font-medium text-gray-600 flex gap-5 items-center'>Valid From:
-          <span className='text-black font-black text-base'>{levels[levelName].from}</span>
+          <span className='text-black font-black text-lg'>{levels[levelName].from}</span>
         </label>
         <label className='text-sm font-medium text-gray-600 flex gap-5 items-center'>To:
-          <span className='text-black font-black text-base'>{levels[levelName].to}</span>
+          <span className='text-black font-black text-lg'>{levels[levelName].to}</span>
         </label>
       </div>
       <p className='text-lg mt-3 w-full'>Paid?</p>

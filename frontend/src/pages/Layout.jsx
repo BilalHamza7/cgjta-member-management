@@ -13,8 +13,8 @@ const Layout = () => {
   const linkClasses = "flex items-center gap-3 w-full rounded-lg p-2 transition-all ease-in duration-150";
 
   return (
-    <div className='flex'>
-      <div className="bg-[#DDE2C6] w-64 h-screen p-5 flex flex-col justify-between">
+    <div className='flex h-screen'>
+      <div className="bg-[#DDE2C6] w-64 p-5 flex flex-col justify-between">
         <div className="flex flex-col">
           <img src={logo} className='h-10' />
 

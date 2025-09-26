@@ -43,7 +43,7 @@ const GeneralDetails = ({ switchComponent, joinDate, fullName, email, nicNo, mob
                 </p>
                 <label htmlFor="joinDate" className='flex flex-col gap-1 text-lg mt-5'>
                     Join Date*
-                    <input type="date" onChange={handleDateChange} value={joinDate} id='joinDate' placeholder='Enter your email' className='input_style w-72' />
+                    <input type="date" onChange={handleDateChange} value={joinDate} id='joinDate' className='input_style w-72' />
                 </label>
                 <label htmlFor="fullName" className='flex flex-col gap-1 text-lg mt-7'>
                     Full Name*

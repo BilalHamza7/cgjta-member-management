@@ -7,6 +7,7 @@ import LevelsDashboard from './pages/levels/LevelsDashboard';
 import Settings from './pages/profile/Settings';
 
 import Layout from './pages/Layout';
+import MemberMain from './pages/members/memberDetails/MemberMain';
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
           <Route path="/members" element={<MembersHome />} />
           <Route path="/levels" element={<LevelsDashboard />} />
           <Route path="/settings" element={<Settings />} />
+          <Route path="/members/memberDetails" element={<MemberMain />} />
         </Route>
 
       </Routes>
