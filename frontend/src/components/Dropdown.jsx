@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 
-const Dropdown = ({ label, items = [], onchange }) => {
+const Dropdown = ({ label, items = [], onChange }) => {
     const [open, setOpen] = useState(false);
     const [selectedLabel, setSelectedLabel] = useState(label);
     const dropdownRef = useRef(null);
@@ -9,7 +9,7 @@ const Dropdown = ({ label, items = [], onchange }) => {
         setSelectedLabel(item.label);
         if (item.onClick) item.onClick();
         setOpen(false);
-        onchange((item.label === "All Levels" || item.label === "All Statuses") ? "0" : item.label);
+        onChange((item.label === "All Levels" || item.label === "All Statuses") ? "" : item.label);
     }
 
     // Close dropdown on outside click

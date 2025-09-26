@@ -14,7 +14,7 @@ const MembersHome = () => {
   const [searchStatus, setSearchStatus] = useState('0');
   const [searchLevel, setSearchLevel] = useState('0');
   // const [pageNo, setPageNo] = useState(1);
-
+  const [loadingMembers, setLoadingMembers] = useState(true);
   const [members, setMembers] = useState([]);
 
   const getMembers = async () => {
@@ -37,17 +37,18 @@ const MembersHome = () => {
 
     } catch (error) {
       console.error('Error fetching members data:', error);
+    } finally {
+      setLoadingMembers(false);
     }
   }
 
   useEffect(() => {
     // Fetch members data using axios from the backend API
     getMembers();
-  }, []);
+  }, [searchLevel, searchStatus]);
 
   useEffect(() => {
     // console.log("membersssss", members);
-    members.length > 0 ? console.log("member", members) : "loading";
   }, [members]);
 
   return (
@@ -65,7 +66,7 @@ const MembersHome = () => {
       {/* Search filters */}
       <div className="mt-8 flex items-center gap-4">
         <input type="text" placeholder='Search member by ID' className='input_style w-72' onChange={(e) => setSearchId(e.target.value)} value={searchId} />
-        <button type="button" aria-label='searchById' className="absolute top-33 left-130 text-3xl text-gray-700 cursor-pointer opacity-70" >&#x1F50D;</button>
+        <button type="button" aria-label='searchById' className="absolute top-33 left-130 text-3xl text-gray-700 cursor-pointer opacity-70" onClick={getMembers} >&#x1F50D;</button>
         <input type="text" placeholder='Search member by name' className='input_style w-72' onChange={(e) => setSearchName(e.target.value)} value={searchName} />
         <button type="button" aria-label='searchByName' className="absolute top-33 left-205 text-3xl text-gray-700 cursor-pointer opacity-70" onClick={getMembers} >&#x1F50D;</button>
         <Dropdown
@@ -95,7 +96,7 @@ const MembersHome = () => {
       </div>
 
       {/* Members table */}
-      <MembersTable members={members} />
+      <MembersTable members={members} loading={loadingMembers} />
     </>
   )
 }

@@ -36,7 +36,7 @@ namespace Backend.Services
 
             if (!string.IsNullOrEmpty(fullName))
             {
-                query = query.Filter("fullname", Operator.ILike, fullName);
+                query = query.Filter("fullname", Operator.ILike, $"%{fullName}%");
             }
 
             if (!string.IsNullOrEmpty(status) && status != "0")
